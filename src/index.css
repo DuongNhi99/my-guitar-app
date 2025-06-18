@@ -1,13 +1,147 @@
-body {
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Reset */
+* {
+  padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  font-size: 100%;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@font-face {
+  font-family: 'Inter';
+  src:
+    local('Inter'),
+    url('./assets/fonts/Inter/Inter-Regular.ttf') format('truetype'),
+    url('./assets/fonts/Inter/Inter-SemiBold.ttf') format('truetype'),
+    url('./assets/fonts/Inter/Inter-Medium.ttf') format('truetype'),
+    url('./assets/fonts/Inter/Inter-Bold.ttf') format('truetype');
 }
+
+html,
+body {
+  font-family: 'Inter', sans-serif;
+  min-height: 100%;
+  background-color: #f4f1ee;
+  color: #4a4e69;
+	overflow: hidden;
+  /* overflow-y: auto; ✅ Allows vertical scrolling */
+}
+
+/* Scrollbar customization */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+::-webkit-scrollbar-thumb {
+  background: #c9cccf;
+  border-radius: 180px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #a1a4a8;
+}
+
+/* Autofill styling */
+input:autofill,
+input:-webkit-autofill {
+  -webkit-text-fill-color: var(--text-primary) !important;
+  -webkit-box-shadow: 0 0 0px 1000px var(--background-primary) inset !important;
+  transition: background-color 5000s ease-in-out 0s !important;
+}
+
+/* Image upload styling */
+.imageUploadContainer {
+  width: calc(100vw - 340px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 670px;
+  border: 1px dashed var(--primary-500);
+  border-radius: 8px;
+}
+
+.previewWrapper {
+  position: relative;
+}
+.previewWrapper .preview {
+  width: 100%;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  object-fit: contain;
+  height: 150px;
+  cursor: pointer;
+}
+
+/* Diagram cards */
+.card-diagram,
+.card-diagram-alone {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.card-diagram {
+  height: 700px;
+}
+.card-diagram-alone {
+  height: 900px;
+}
+.card-diagram img,
+.card-diagram-alone img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.img-vitural {
+  position: absolute;
+  object-fit: fill;
+  top: 0;
+  left: 0;
+  z-index: -10;
+}
+
+
+/* Hide Mapbox UI elements if needed */
+.mapboxgl-compact,
+.mapboxgl-control-container {
+  display: none;
+}
+
+.input {
+  @apply w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#4a4e69] text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-300;
+}
+
+.btn {
+  @apply text-white px-4 py-2 rounded transition;
+}
+
+/* Optional: for DRY styling */
+.input-style {
+  @apply p-2 rounded bg-white dark:bg-[#4a4e69] border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring focus:ring-[#c9ada7];
+}
+.btn-add {
+  @apply bg-[#c9ada7] hover:bg-[#b18f88] text-white px-4 py-2 rounded transition;
+}
+.btn-submit {
+  @apply bg-[#9a8c98] hover:bg-[#7f6f7b] text-white px-6 py-2 rounded text-lg font-semibold transition;
+}
+
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* .input-style {
+  @apply border border-gray-300 dark:border-gray-600 px-3 py-2 rounded w-full;
+}
+.btn-primary {
+  @apply bg-[#9a8c98] hover:bg-[#7f6f7b] text-white px-4 py-2 rounded;
+} */
