@@ -231,7 +231,7 @@ export default function Navbar() {
               Music
             </Link>
 
-            {user?.email === "admin@example.com" && (
+            {user?.email === "nhi@gmail.com" && (
               <Link
                 onClick={() => setMenuOpen(false)}
                 to="/admin"
