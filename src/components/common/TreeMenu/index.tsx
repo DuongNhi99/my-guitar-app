@@ -79,9 +79,11 @@ interface TreeMenuProps {
     lessons: { title: string; parts: { heading: string; content: string }[] }[];
   }[];
   onSelect: (sectionIdx: number, dayIdx: number) => void;
+	  isLessonUnlocked: (sectionIdx: number, dayIdx: number) => boolean;
+  finished: { [key: string]: boolean };
 }
 
-export default function TreeMenu({ sections, onSelect }: TreeMenuProps) {
+export default function TreeMenu({ sections, onSelect, isLessonUnlocked, finished }: TreeMenuProps) {
   const [expanded, setExpanded] = useState<{ [key: number]: boolean }>({ 0: false, 1: false, 2: false });
   const [selected, setSelected] = useState<{ sectionIdx: number; dayIdx: number } | null>(null);
 
@@ -92,7 +94,8 @@ export default function TreeMenu({ sections, onSelect }: TreeMenuProps) {
     }));
   };
 
-  const handleDayClick = (sectionIdx: number, dayIdx: number) => {
+  const handleDayClick = (sectionIdx: number, dayIdx: number, unlocked: boolean) => {
+    if (!unlocked) return;
     setSelected({ sectionIdx, dayIdx });
     onSelect(sectionIdx, dayIdx);
   };
@@ -129,19 +132,24 @@ export default function TreeMenu({ sections, onSelect }: TreeMenuProps) {
             </button>
             {expanded[sectionIdx] && (
               <ul id={`section-${sectionIdx}`} className="ml-6 mt-1">
-                {section.lessons.map((lesson, dayIdx) => (
-                  <li
-                    key={lesson.title}
-                    className={`py-0.5 text-[#4a4e69] dark:text-[#22223b] hover:underline cursor-pointer transition ${
-                      selected?.sectionIdx === sectionIdx && selected?.dayIdx === dayIdx
-                        ? "font-bold underline"
-                        : ""
-                    }`}
-                    onClick={() => handleDayClick(sectionIdx, dayIdx)}
-                  >
-                    {lesson.title}
-                  </li>
-                ))}
+                {section.lessons.map((lesson, dayIdx) => {
+                  const unlocked = isLessonUnlocked(sectionIdx, dayIdx);
+                  const isFinished = finished[`guitar-lesson-finished-${sectionIdx}-${dayIdx}`];
+                  return (
+                    <li
+                      key={lesson.title}
+                      className={`py-0.5 text-[#4a4e69] dark:text-[#22223b] cursor-pointer transition ${
+                        selected?.sectionIdx === sectionIdx && selected?.dayIdx === dayIdx
+                          ? "font-bold underline"
+                          : ""
+                      } ${!unlocked ? "opacity-40 cursor-not-allowed" : "hover:underline"} ${isFinished ? "text-green-600" : ""}`}
+                      onClick={() => handleDayClick(sectionIdx, dayIdx, unlocked)}
+                    >
+                      {lesson.title}
+                      {isFinished && <span className="ml-2 text-xs">✔</span>}
+                    </li>
+                  );
+                })}
               </ul>
             )}
           </li>
